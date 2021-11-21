@@ -1,0 +1,78 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <TextView
+        android:id="@+id/duration"
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:text="00:00"
+        android:textSize="34sp" />
+
+    <TextView
+        android:id="@+id/distance"
+        android:text="00:00"
+        android:textSize="28sp"
+        android:layout_width="100dp"
+        android:layout_height="75dp"
+        android:layout_below="@id/duration" />
+
+
+    <TextView
+        android:id="@+id/average"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_below="@id/duration"
+        android:layout_centerInParent="true"
+        android:layout_marginStart="70dp"
+        android:layout_marginTop="0dp"
+        android:layout_toEndOf="@id/distance"
+        android:text="00:00"
+        android:textSize="28sp" />
+
+    <TextView
+        android:id="@+id/d"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_below="@id/duration"
+        android:layout_alignParentEnd="true"
+        android:text="00:00"
+        android:textSize="28sp" />
+
+    <androidx.fragment.app.FragmentContainerView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:map="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/map"
+        class="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:layout_below="@id/average"
+        android:layout_alignParentBottom="true"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="60dp"
+        tools:context=".HomeFragment" />
+
+    <Button
+        android:id="@+id/startRun"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
+        android:layout_marginRight="5dp"
+        android:layout_toLeftOf="@id/finishRun"
+        android:text="@string/start_run"></Button>
+
+    <Button
+        android:id="@+id/finishRun"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="85dp"
+        android:text="Finish Run"
+        android:visibility="visible"></Button>
+
+</RelativeLayout>

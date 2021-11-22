@@ -1,6 +1,7 @@
 package com.example.pahapp;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -14,6 +15,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -128,6 +130,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, EasyPe
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        mRunViewModel = ViewModelProviders.of(this).get(RunViewModel.class);
         // Inflate the layout for this fragment
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
@@ -145,6 +148,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, EasyPe
             public void onClick(View view) {
                 startRun();
                 Log.d(String.valueOf(1), "Sosamba");
+                binding.finishRun.setVisibility(View.VISIBLE);
             }
         });
         binding.finishRun.setOnClickListener(new View.OnClickListener() {
@@ -154,18 +158,20 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, EasyPe
                 endRun();
                 unsubscribeFromObservers(service);
                 pathPoints.clear();
+                binding.finishRun.setVisibility(View.GONE);
+                TrackingService.handler.removeCallbacks(TrackingService.timer);
             }
         });
         mapFragment.getMapAsync(this);
 
         subscribeToObservers(service);
 
-
     }
     private void unsubscribeFromObservers(TrackingService service){
-        service.isTracking.removeObservers(getViewLifecycleOwner());
-        service.pathPoints.removeObservers(getViewLifecycleOwner());
-        service.timeRunInMillis.removeObservers(getViewLifecycleOwner());
+        service.isTracking.removeObservers(this);
+        service.pathPoints.removeObservers(this);
+        service.timeRunInMillis.removeObservers(this);
+        Log.d(String.valueOf(1), "Kek:" + service.isTracking.hasActiveObservers() + service.pathPoints.hasActiveObservers() + service.timeRunInMillis.hasActiveObservers());
     }
     private void subscribeToObservers(TrackingService service){ ;
         service.isTracking.observeForever(new Observer<Boolean>() {
@@ -190,36 +196,41 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, EasyPe
             public void onChanged(Long aLong) {
                 curTimeMillis = aLong;
                 String formattedTime = TrackingUtility.getFormattedStopWatchTime(curTimeMillis);
-                binding.duration.setText(formattedTime);
+                if (binding != null) {
+                    binding.duration.setText(formattedTime);
+                }
             }
         });
 
     }
     private void startRun(){
         if(isTracking){
-            Log.d(String.valueOf(2), "Visibility" );
-            binding.finishRun.setVisibility(Button.VISIBLE);
+
             sendCommand("ACTION_PAUSE_SERVICE");
         }else {
             sendCommand("ACTION_START_OR_RESUME_SERVICE");
-            Log.d(String.valueOf(2), "Zalupility" );
+
         }
     }
 
+
+    @SuppressLint("MissingPermission")
     @Override
     public void onMapReady(GoogleMap googleMap) {
            mMap = googleMap;
+            if(TrackingUtility.hasLocationPermissions(requireContext())){
+                if(mMap!= null){
+                    mMap.setMyLocationEnabled(true);
+                }
+            }
            addAllPolylines();
     }
     private void updateTracking(Boolean isTracking){
         this.isTracking = isTracking;
         if(isTracking){
-            binding.startRun.setText("Stop");
-            binding.finishRun.setVisibility(View.VISIBLE);
             Log.d(String.valueOf(99), "isTrah ");
         }else{
-            binding.startRun.setText("Start");
-            binding.finishRun.setVisibility(View.GONE);
+
         }
     }
     private void addLatestPolyline(){

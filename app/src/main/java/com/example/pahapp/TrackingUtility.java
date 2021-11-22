@@ -10,7 +10,9 @@ import androidx.lifecycle.MutableLiveData;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Polyline;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
 
 import pub.devrel.easypermissions.EasyPermissions;
@@ -33,7 +35,7 @@ public class TrackingUtility {
     }
     public static Float calculatePolylineLength(ArrayList<LatLng> polyline){
         Float distance = 0f;
-        for(int i = 0; i<= polyline.size() - 1;i++){
+        for(int i = 0; i<= polyline.size() - 2;i++){
             LatLng pos1 = polyline.get(i);
             LatLng pos2 = polyline.get(i + 1);
             float[] results = new float[1];
@@ -68,5 +70,15 @@ public class TrackingUtility {
             resSeconds = String.valueOf(seconds);
         }
         return resHours + ":" + resMinutes + ":" + resSeconds;
+    }
+    public static String getDate(Long milliSeconds, String dateFormat)
+    {
+        // Create a DateFormatter object for displaying date in specified format.
+        SimpleDateFormat formatter = new SimpleDateFormat(dateFormat);
+
+        // Create a calendar object that will convert the date and time value in milliseconds to date.
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(milliSeconds);
+        return formatter.format(calendar.getTime());
     }
 }

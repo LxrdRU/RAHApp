@@ -60,8 +60,9 @@ public class TrackingService extends LifecycleService {
     static MutableLiveData<Boolean> isTracking = new MutableLiveData<Boolean>();
     static MutableLiveData<ArrayList<ArrayList<LatLng>>> pathPoints = new MutableLiveData<ArrayList<ArrayList<LatLng>>>();
     FusedLocationProviderClient fusedLocationProviderClient;
-    Handler handler = new Handler();
-    Timer timer = new Timer();
+    static Handler handler = new Handler();
+    static Runnable timer;
+
     private LocationCallback locationCallback = new LocationCallback() {
         @Override
         public void onLocationResult(LocationResult locationResult) {
@@ -109,6 +110,7 @@ public class TrackingService extends LifecycleService {
         });
 
 
+
     }
 
 
@@ -118,8 +120,10 @@ public class TrackingService extends LifecycleService {
         postInitialValues();
         stopForeground(true);
         stopSelf();
-        isTracking.removeObservers(this);
+        isTracking.removeObservers(TrackingService.this);
+        Log.d(String.valueOf(1), "Kek:" + isTracking.hasActiveObservers());
     }
+
 
     @Override
     public int onStartCommand(@Nullable Intent intent, int flags, int startId) {
@@ -145,21 +149,24 @@ public class TrackingService extends LifecycleService {
         Log.d(String.valueOf(7), "startTimer: true" + isTracking.getValue());
         timeStarted = System.currentTimeMillis();
         isTimerEnabled = true;
-        Handler timerHandler = new Handler();
-        Runnable timerRunnable = new Runnable() {
+        Log.d(String.valueOf(8), "Eban" + isTracking.getValue() + isTimerEnabled);
+        Runnable timerRunnable = new Runnable(){
 
             @Override
             public void run() {
-                timeRunInMillis.setValue(System.currentTimeMillis() - timeStarted);
-                timeRunInSeconds.setValue(timeRunInMillis.getValue() / 1000);
+                Log.d(String.valueOf(7), "Eban" + isTracking.getValue() + isTimerEnabled);
+                    timeRunInMillis.setValue(System.currentTimeMillis() - timeStarted);
+                    timeRunInSeconds.setValue(timeRunInMillis.getValue() / 1000);
 
 
-                Log.d(String.valueOf(35), timeRunInMillis.getValue() + " : " + timeRunInSeconds.getValue() +":");
+                    Log.d(String.valueOf(35), " Timer:" + timeRunInMillis.getValue() + " : " + timeRunInSeconds.getValue() + ":");
 
-                timerHandler.postDelayed(this, 500);
+                    handler.postDelayed(this, 500);
+
             }
         };
-        timerHandler.postDelayed(timerRunnable,0);
+        timer = timerRunnable;
+        handler.postDelayed(timerRunnable,0);
 
 
 //        new AsyncTaskStartTimer().execute();

@@ -1,12 +1,21 @@
 package com.example.pahapp;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.pahapp.databinding.FragmentHomeBinding;
+import com.example.pahapp.databinding.FragmentStatsBinding;
+
+import java.util.List;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -14,7 +23,8 @@ import android.view.ViewGroup;
  * create an instance of this fragment.
  */
 public class StatsFragment extends Fragment {
-
+    private RunViewModel mRunViewModel;
+    private FragmentStatsBinding binding;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -53,12 +63,25 @@ public class StatsFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_stats, container, false);
+        binding = FragmentStatsBinding.inflate(inflater, container, false);
+        View view = binding.getRoot();
+        mRunViewModel = ViewModelProviders.of(this).get(RunViewModel.class);
+        RecyclerView recyclerView = binding.recyclerview;
+        final StatsListAdapter adapter = new StatsListAdapter(getActivity());
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mRunViewModel.getAllRuns().observe(getViewLifecycleOwner(), new Observer<List<Run>>() {
+            @Override
+            public void onChanged(List<Run> runs) {
+                adapter.setRuns(runs);
+            }
+        });
+        return view;
     }
 }

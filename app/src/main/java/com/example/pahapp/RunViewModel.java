@@ -11,9 +11,9 @@ import java.util.List;
 
 public class RunViewModel extends AndroidViewModel {
     private RunRepository mRepository;
-    private MediatorLiveData<List<Run>> mAllRuns;
+    private MediatorLiveData<List<Run>> mAllRuns = new MediatorLiveData<List<Run>>();
 
-    public RunViewModel (Application application){
+    public RunViewModel(Application application){
         super(application);
         mRepository = new RunRepository(application);
         mAllRuns.addSource(mRepository.getAllRuns(), new Observer<List<Run>>() {

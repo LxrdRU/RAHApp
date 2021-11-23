@@ -1,5 +1,7 @@
 package com.example.pahapp;
 
+import android.graphics.Bitmap;
+
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
@@ -31,19 +33,35 @@ public class Run {
     @ColumnInfo(name = "time_in_millis")
     public Long mTimeInMillis;
 
+
     @NonNull
     @ColumnInfo(name = "calories_burned")
     public Integer mCaloriesBurned;
+
+
+    @ColumnInfo(typeAffinity = ColumnInfo.BLOB)
+    public byte[] mImg;
+
+
     public Run(){};
-    public Run(@NonNull Long timestamp, @NonNull Float avgSpeedInKMH, @NonNull Integer distanceInMeters, @NonNull Long timeInMillis, @NonNull Integer caloriesBurned) {
+    public Run(byte[] img, @NonNull Long timestamp, @NonNull Float avgSpeedInKMH, @NonNull Integer distanceInMeters, @NonNull Long timeInMillis, @NonNull Integer caloriesBurned) {
+        this.mImg = img;
         this.mTimestamp = timestamp;
         this.mAvgSpeenInKMH = avgSpeedInKMH;
         this.mDistanceInMeters = distanceInMeters;
         this.mTimeInMillis = timeInMillis;
         this.mCaloriesBurned = caloriesBurned;
     }
-    public Run(@NonNull Integer id, @NonNull Long timestamp, @NonNull Float avgSpeedInKMH, @NonNull Integer distanceInMeters, @NonNull Long timeInMillis, @NonNull Integer caloriesBurned) {
+    public Run(@NonNull Integer id, byte[] img, @NonNull Long timestamp, @NonNull Float avgSpeedInKMH, @NonNull Integer distanceInMeters, @NonNull Long timeInMillis, @NonNull Integer caloriesBurned) {
         this.mId = id;
+        this.mImg = img;
+        this.mTimestamp = timestamp;
+        this.mAvgSpeenInKMH = avgSpeedInKMH;
+        this.mDistanceInMeters = distanceInMeters;
+        this.mTimeInMillis = timeInMillis;
+        this.mCaloriesBurned = caloriesBurned;
+    }
+    public Run(@NonNull Long timestamp, @NonNull Float avgSpeedInKMH, @NonNull Integer distanceInMeters, @NonNull Long timeInMillis, @NonNull Integer caloriesBurned) {
         this.mTimestamp = timestamp;
         this.mAvgSpeenInKMH = avgSpeedInKMH;
         this.mDistanceInMeters = distanceInMeters;

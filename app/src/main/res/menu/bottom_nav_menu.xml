@@ -4,19 +4,19 @@
     <item
         android:id="@+id/home"
         android:enabled="true"
-        android:icon="@drawable/ic_action_name"
-        android:title="Recents"
+        android:icon="@drawable/g_map"
+        android:title="Map"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/stats"
         android:enabled="true"
-        android:icon="@drawable/ic_action_name"
-        android:title="Favorites"
+        android:icon="@drawable/timeline"
+        android:title="Stats"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/profile"
         android:enabled="true"
-        android:icon="@drawable/ic_action_name"
-        android:title="Nearby"
+        android:icon="@drawable/user"
+        android:title="Profile"
         app:showAsAction="ifRoom" />
 </menu>

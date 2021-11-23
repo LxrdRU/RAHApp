@@ -4,6 +4,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.location.Location;
 import android.os.Build;
@@ -42,6 +43,7 @@ import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -92,6 +94,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, EasyPe
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+        pathPoints.clear();
     }
 
     @Override
@@ -142,6 +145,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, EasyPe
         super.onViewCreated(view, savedInstanceState);
         getChildFragmentManager().findFragmentById(R.id.map).onCreate(savedInstanceState);
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+        BottomNavigationView botNavView = getActivity().findViewById(R.id.bottomNavigationView);
         requestPermissions();
         binding.startRun.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -149,6 +153,8 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, EasyPe
                 startRun();
                 Log.d(String.valueOf(1), "Sosamba");
                 binding.finishRun.setVisibility(View.VISIBLE);
+                binding.startRun.setVisibility(View.GONE);
+                botNavView.setVisibility(View.GONE);
             }
         });
         binding.finishRun.setOnClickListener(new View.OnClickListener() {
@@ -157,9 +163,10 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, EasyPe
                 zoomToSeeWholeTrack();
                 endRun();
                 unsubscribeFromObservers(service);
-                pathPoints.clear();
                 binding.finishRun.setVisibility(View.GONE);
                 TrackingService.handler.removeCallbacks(TrackingService.timer);
+                binding.startRun.setVisibility(View.VISIBLE);
+                botNavView.setVisibility(View.VISIBLE);
             }
         });
         mapFragment.getMapAsync(this);
@@ -177,6 +184,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, EasyPe
         service.isTracking.observeForever(new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
+                Log.d(String.valueOf(2), "Traaaaaacking " + aBoolean );
                 updateTracking(aBoolean);
 
             }
@@ -204,8 +212,9 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, EasyPe
 
     }
     private void startRun(){
-        if(isTracking){
 
+        if(isTracking){
+            Log.d(String.valueOf(2), "StartRUn" + isTracking );
             sendCommand("ACTION_PAUSE_SERVICE");
         }else {
             sendCommand("ACTION_START_OR_RESUME_SERVICE");
@@ -257,16 +266,23 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, EasyPe
         }
     }
     private void endRun(){
-        int distanceInMeters = 0;
-        for (ArrayList<LatLng> polyline: pathPoints) {
-            distanceInMeters += TrackingUtility.calculatePolylineLength(polyline);
-        }
-        float avgSpeed = Math.round((distanceInMeters / 1000f) / (curTimeMillis / 1000f / 60 / 60) * 10) / 10f;
-        long dateTimeStamp = Calendar.getInstance().getTimeInMillis();
-        float caloriesBurned = (distanceInMeters / 1000f) * weight;
-        Run run = new Run(dateTimeStamp, avgSpeed, distanceInMeters, curTimeMillis, (int) caloriesBurned);
-        mRunViewModel.insertRun(run);
-        sendCommand("ACTION_STOP_SERVICE");
+        mMap.snapshot(new GoogleMap.SnapshotReadyCallback() {
+            @Override
+            public void onSnapshotReady(Bitmap bitmap) {
+                int distanceInMeters = 0;
+                for (ArrayList<LatLng> polyline: pathPoints) {
+                    distanceInMeters += Math.round(TrackingUtility.calculatePolylineLength(polyline));
+                }
+                float avgSpeed = Math.round((distanceInMeters / 1000f) / (curTimeMillis / 1000f / 60 / 60) * 10) / 10f;
+                long dateTimeStamp = Calendar.getInstance().getTimeInMillis();
+                float caloriesBurned = (distanceInMeters / 1000f) * weight;
+                Log.d(String.valueOf(3), "onSnapshotReady: " + dateTimeStamp + ":  " + avgSpeed + " :  " + pathPoints);
+                Run run = new Run(TrackingUtility.bitmapToBytes(bitmap), dateTimeStamp, avgSpeed, distanceInMeters, curTimeMillis, (int) caloriesBurned);
+                mRunViewModel.insertRun(run);
+                pathPoints.clear();
+                sendCommand("ACTION_STOP_SERVICE");
+            }
+        });
     }
     private void sendCommand(String action){
         Intent intent = new Intent(requireContext(),TrackingService.class);

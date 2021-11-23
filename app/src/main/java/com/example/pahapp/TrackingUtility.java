@@ -2,14 +2,15 @@ package com.example.pahapp;
 
 import android.Manifest;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.os.Build;
 
-import androidx.lifecycle.MutableLiveData;
-
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Polyline;
 
+import java.io.ByteArrayOutputStream;
+import java.nio.ByteBuffer;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -81,4 +82,19 @@ public class TrackingUtility {
         calendar.setTimeInMillis(milliSeconds);
         return formatter.format(calendar.getTime());
     }
+//    public static byte[] bitmapToBytes(Bitmap bitmap){
+//        int size = bitmap.getRowBytes() * bitmap.getHeight();
+//        ByteBuffer byteBuffer = ByteBuffer.allocate(size);
+//        bitmap.copyPixelsToBuffer(byteBuffer);
+//        return byteBuffer.array();
+//    }
+    public static byte[] bitmapToBytes(Bitmap bitmap){
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
+        return outputStream.toByteArray();
+    }
+    public static Bitmap bytesToBitmap(byte[] bytes){
+        return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+    }
+
 }

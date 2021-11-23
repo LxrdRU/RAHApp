@@ -12,7 +12,7 @@
         android:textSize="34sp" />
 
     <TextView
-        android:id="@+id/distance"
+        android:id="@+id/speed_row"
         android:text="00:00"
         android:textSize="28sp"
         android:layout_width="100dp"
@@ -28,7 +28,7 @@
         android:layout_centerInParent="true"
         android:layout_marginStart="70dp"
         android:layout_marginTop="0dp"
-        android:layout_toEndOf="@id/distance"
+        android:layout_toEndOf="@id/speed_row"
         android:text="00:00"
         android:textSize="28sp" />
 
@@ -62,7 +62,8 @@
         android:layout_centerInParent="true"
         android:layout_marginRight="5dp"
         android:layout_toLeftOf="@id/finishRun"
-        android:text="@string/start_run"></Button>
+        android:text="@string/start_run"
+        android:visibility="visible"></Button>
 
     <Button
         android:id="@+id/finishRun"
@@ -70,7 +71,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginRight="85dp"
+        android:layout_centerInParent="true"
+        android:layout_marginRight="145dp"
+        android:layout_marginBottom="1dp"
         android:text="Finish Run"
         android:visibility="gone"></Button>
 

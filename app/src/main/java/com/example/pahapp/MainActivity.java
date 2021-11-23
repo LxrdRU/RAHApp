@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity  {
         View view = binding.getRoot();
         setContentView(view);
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        bottomNavigationView.setItemIconTintList(null);
         Fragment homeFragment = new HomeFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, homeFragment).commit();
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {

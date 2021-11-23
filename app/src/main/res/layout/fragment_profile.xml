@@ -1,14 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ProfileFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Profile" />
+        android:id="@+id/user_name_textView"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/user_name"
+        android:text="Name: "
+        android:textSize="24sp"
+        android:textStyle="bold"></TextView>
+    <EditText
+        android:id="@+id/user_name"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        >
+    </EditText>
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/weight_textView"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_below="@id/user_name_textView"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/weight"
+        android:text="Weight: "
+        android:textSize="24sp"
+        android:textStyle="bold"></TextView>
+    <EditText
+        android:id="@+id/weight"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/user_name"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        ></EditText>
+
+    <TextView
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_below="@id/weight_textView"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/height"
+        android:text="Weight: "
+        android:textSize="24sp"
+        android:textStyle="bold"></TextView>
+    <EditText
+        android:id="@+id/height"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/weight"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        ></EditText>
+    <Button
+        android:id="@+id/apply_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="Apply"
+        android:textSize="20sp"
+></Button>
+</RelativeLayout>

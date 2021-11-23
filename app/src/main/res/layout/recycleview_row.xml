@@ -1,76 +1,118 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-             android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:background="#ffffff" >
 
-    <TextView
-        android:id="@+id/cal_textView"
-        android:layout_width="358dp"
-        android:layout_height="61dp"
-        android:layout_below="@+id/speed_textView"
-        android:layout_alignParentRight="true"
-        android:layout_marginStart="2dp"
-        android:text="Cal. Burned: 546"
-        android:textSize="24sp" />
+    <LinearLayout
+        android:id="@+id/viewNameM"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#cccccc" >
 
-    <TextView
-        android:id="@+id/speed_textView"
-        android:layout_width="358dp"
-        android:layout_height="61dp"
-        android:layout_below="@+id/distance_TextView"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="0dp"
-        android:layout_marginEnd="0dp"
-        android:layout_marginRight="0dp"
-        android:text="Avg. Speed: 23.4 m/h"
-        android:textSize="24sp" />
+        <TextView
+            android:id="@+id/date_time_row"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:gravity="center_horizontal"
+            android:text="21.05.2019 3:30"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#f6911e"
+            android:textStyle="bold" />
+    </LinearLayout>
 
-    <TextView
-        android:id="@+id/distance_TextView"
-        android:layout_width="358dp"
-        android:layout_height="61dp"
-        android:layout_below="@+id/time_second_textView"
-        android:layout_alignParentRight="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="0dp"
-        android:layout_marginRight="0dp"
-        android:text="Distance: 24m"
-        android:textSize="24sp" />
+    <RelativeLayout
+        android:id="@+id/viewDetails1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/viewNameM"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp">
 
-    <TextView
-        android:id="@+id/time_textView"
-        android:layout_width="358dp"
-        android:layout_height="61dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginEnd="0dp"
-        android:text="Date: 23.11.2019   "
-        android:textSize="24sp" />
+<!--        <ImageView-->
+<!--            android:id="@+id/arrow"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_alignParentRight="true"-->
+<!--            android:layout_centerVertical="true"-->
+<!--            android:src="@drawable/chevron" />-->
 
-    <TextView
-        android:id="@+id/time_second_textView"
-        android:layout_width="358dp"
-        android:layout_height="61dp"
-        android:layout_below="@+id/time_textView"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginEnd="0dp"
-        android:text="Time: 06:30  "
-        android:textSize="24sp" />
+        <ImageView
+            android:id="@+id/map_image"
+            android:layout_width="160dp"
+            android:layout_height="93dp"
+            android:layout_alignParentLeft="true" />
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="135dp"
-        android:layout_height="226dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="0dp"
-        tools:srcCompat="@tools:sample/avatars" />
+
+        <RatingBar
+            android:id="@+id/ratingUser"
+            style="?android:attr/ratingBarStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/calories_row"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="3dp"
+
+            android:indeterminate="false"
+            android:isIndicator="true"
+            android:numStars="5"
+            android:stepSize="0.1" />
+
+        <TextView
+            android:id="@+id/distance_row"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/speed_row"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="3dp"
+
+            android:text="1.6km"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#4a4c4d"
+            android:textStyle="bold"
+
+            />
+        <TextView
+            android:id="@+id/duration_row"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/distance_row"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="3dp"
+
+            android:text="00:00:34"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#4a4c4d"
+            android:textStyle="bold"
+
+            />
+
+        <TextView
+            android:id="@+id/speed_row"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ratingUser"
+            android:layout_alignParentRight="true"
+
+            android:text="25 km/h"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#4a4c4d" />
+
+        <TextView
+            android:id="@+id/calories_row"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="3dp"
+
+            android:text="8 cals burned"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#4a4c4d" />
+
+
+    </RelativeLayout>
+
+
 </RelativeLayout>

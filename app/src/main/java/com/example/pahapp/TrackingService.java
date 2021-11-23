@@ -52,7 +52,7 @@ import java.util.Timer;
 import java.util.concurrent.Executor;
 
 public class TrackingService extends LifecycleService {
-    private static TrackingService instance;
+    static TrackingService instance;
     private MutableLiveData<Long> timeRunInSeconds = new MutableLiveData<Long>();
     private Boolean serviseKilled = false;
     private Boolean isFirstRun = true;
@@ -63,7 +63,7 @@ public class TrackingService extends LifecycleService {
     static Handler handler = new Handler();
     static Runnable timer;
 
-    private LocationCallback locationCallback = new LocationCallback() {
+    LocationCallback locationCallback = new LocationCallback() {
         @Override
         public void onLocationResult(LocationResult locationResult) {
             Log.d(String.valueOf(2), "onLocationResult: ");
@@ -71,9 +71,11 @@ public class TrackingService extends LifecycleService {
                 return;
             }
             for (Location location : locationResult.getLocations()) {
-                addPathPoint(location);
-                Log.d(String.valueOf(1), "pathPoints:" + pathPoints.getValue());
-                Log.d(String.valueOf(1), "onLocationResult: " + location.getLatitude() + location.getLongitude());
+                if (isTracking.getValue()) {
+                    addPathPoint(location);
+                    Log.d(String.valueOf(1), "pathPoints:" + pathPoints.getValue());
+                    Log.d(String.valueOf(1), "onLocationResult: " + location.getLatitude() + location.getLongitude());
+                }
             }
         }
     };
@@ -96,7 +98,7 @@ public class TrackingService extends LifecycleService {
     @Override
     public void onCreate() {
         super.onCreate();
-        postInitialValues();
+
         Intent intent = new Intent(getApplicationContext(),MainActivity.class).setAction("ACTION_SHOW_TRACKING_FRAGMENT");
         baseNotificationBuilder = new NotificationCompat.Builder(this,"tracking_channel").setAutoCancel(false).setOngoing(true).setSmallIcon(R.drawable.notification_icon).setContentTitle("Running app").setContentText("00:00:00").setContentIntent(PendingIntent.getActivity(getApplicationContext(),0,intent,PendingIntent.FLAG_UPDATE_CURRENT));
         curNotificationBuilder = baseNotificationBuilder;
@@ -108,6 +110,7 @@ public class TrackingService extends LifecycleService {
                 updateNotificationTrackingState(aBoolean);
             }
         });
+        postInitialValues();
 
 
 
@@ -116,6 +119,7 @@ public class TrackingService extends LifecycleService {
 
     private void killServise(){
         serviseKilled = true;
+        isFirstRun=true;
         pauseService();
         postInitialValues();
         stopForeground(true);
@@ -127,6 +131,7 @@ public class TrackingService extends LifecycleService {
 
     @Override
     public int onStartCommand(@Nullable Intent intent, int flags, int startId) {
+        Log.d(String.valueOf(2), "ACTION_STOP" + startId);
         switch (intent.getAction()){
             case "ACTION_START_OR_RESUME_SERVICE":
                 if (isFirstRun) {
@@ -136,16 +141,17 @@ public class TrackingService extends LifecycleService {
                     startTimer();
                 }
             case "ACTION_PAUSE_SERVICE":
-                    pauseService();
+                Log.d(String.valueOf(2), "ACTION_PAUSE" );
+                pauseService();
             case "ACTION_STOP_SERVICE":
-                    killServise();
+                killServise();
         }
         return super.onStartCommand(intent, flags, startId);
     }
 
     private void startTimer(){
         addEmptyPolyline();
-       isTracking.setValue(true);
+        isTracking.setValue(true);
         Log.d(String.valueOf(7), "startTimer: true" + isTracking.getValue());
         timeStarted = System.currentTimeMillis();
         isTimerEnabled = true;
@@ -154,6 +160,7 @@ public class TrackingService extends LifecycleService {
 
             @Override
             public void run() {
+                isTracking.setValue(true);
                 Log.d(String.valueOf(7), "Eban" + isTracking.getValue() + isTimerEnabled);
                     timeRunInMillis.setValue(System.currentTimeMillis() - timeStarted);
                     timeRunInSeconds.setValue(timeRunInMillis.getValue() / 1000);
@@ -251,7 +258,7 @@ public class TrackingService extends LifecycleService {
                 fusedLocationProviderClient.removeLocationUpdates(locationCallback);
             }
         }
-        private void addEmptyPolyline() {
+    private void addEmptyPolyline() {
         if(pathPoints.getValue() != null){
             pathPoints.getValue().add(new ArrayList());
             if(pathPoints.getValue() != null) {
@@ -259,14 +266,14 @@ public class TrackingService extends LifecycleService {
             }
         }else{
             pathPoints.postValue(new ArrayList<ArrayList<LatLng>>());
-            }
         }
-        private void addPathPoint(Location location){
-            LatLng pos = new LatLng(location.getLatitude(),location.getLongitude());
-            pathPoints.getValue().get(pathPoints.getValue().size() - 1).add(pos);
-            pathPoints.postValue(pathPoints.getValue());
+    }
+    private void addPathPoint(Location location){
+        LatLng pos = new LatLng(location.getLatitude(),location.getLongitude());
+        pathPoints.getValue().get(pathPoints.getValue().size() - 1).add(pos);
+        pathPoints.postValue(pathPoints.getValue());
 
-        }
+    }
     private void startForegroundService() {
         startTimer();
         isTracking.setValue(true);

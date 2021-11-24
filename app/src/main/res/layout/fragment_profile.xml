@@ -20,6 +20,7 @@
         android:layout_height="50dp"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
+        android:imeOptions="actionDone"
         >
     </EditText>
 
@@ -40,6 +41,7 @@
         android:layout_below="@+id/user_name"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
+        android:imeOptions="actionDone"
         ></EditText>
 
     <TextView
@@ -58,6 +60,7 @@
         android:layout_below="@+id/weight"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
+        android:imeOptions="actionDone"
         ></EditText>
     <Button
         android:id="@+id/apply_button"

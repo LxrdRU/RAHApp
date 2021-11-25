@@ -24,6 +24,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowInsetsAnimation;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.pahapp.databinding.FragmentHomeBinding;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -59,21 +60,16 @@ import pub.devrel.easypermissions.EasyPermissions;
  */
 public class HomeFragment extends Fragment implements OnMapReadyCallback, EasyPermissions.PermissionCallbacks {
     private FragmentHomeBinding binding;
-    private View view;
-    private LocationCallback locationCallback;
+
     private GoogleMap mMap;
-    private LocationRequest locationRequest;
-    int LOCATION_PERMISSION_REQUEST_CODE = 1;
-    private FusedLocationProviderClient fusedLocationProviderClient;
-    private Boolean permissionDenied = false;
-    private boolean locationPermissionGranted = false;
-    private Location lastKnownLocation;
-    private final LatLng defaultLocation = new LatLng(50.6745, -120.3273);
-    private static final int DEFAULT_ZOOM = 15;
+
     ArrayList<ArrayList<LatLng>> pathPoints = new ArrayList<ArrayList<LatLng>>();
     private Long curTimeMillis;
     private Boolean isTracking = false;
+
     private RunViewModel mRunViewModel;
+    private UserViewModel mUserViewModel;
+
     private Float weight = 80f;
     TrackingService service = new TrackingService();
 
@@ -100,7 +96,15 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, EasyPe
     @Override
     public void onResume() {
         super.onResume();
+        if(mUserViewModel.getAllUser().getValue()!=null){
+            Log.d(String.valueOf(1), "WEight"+weight.toString());
+            int sizeOfUserArr = mUserViewModel.getAllUser().getValue().size();
+            if(mUserViewModel.getAllUser().getValue().get(sizeOfUserArr-1).getWeight()!=null) {
+                weight = mUserViewModel.getAllUser().getValue().get(sizeOfUserArr - 1).getWeight();
 
+
+            }
+        }
     }
 
     /**
@@ -134,6 +138,8 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, EasyPe
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mRunViewModel = ViewModelProviders.of(this).get(RunViewModel.class);
+        mUserViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
+
         // Inflate the layout for this fragment
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View view = binding.getRoot();

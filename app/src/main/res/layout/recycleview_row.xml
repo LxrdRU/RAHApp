@@ -8,7 +8,7 @@
         android:id="@+id/viewNameM"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#cccccc" >
+        android:background="#9edec7">
 
         <TextView
             android:id="@+id/date_time_row"
@@ -18,7 +18,7 @@
             android:gravity="center_horizontal"
             android:text="21.05.2019 3:30"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="#f6911e"
+            android:textColor="#554fff"
             android:textStyle="bold" />
     </LinearLayout>
 
@@ -41,8 +41,8 @@
 
         <ImageView
             android:id="@+id/map_image"
-            android:layout_width="160dp"
-            android:layout_height="93dp"
+            android:layout_width="234dp"
+            android:layout_height="140dp"
             android:layout_alignParentLeft="true" />
 
 

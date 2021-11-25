@@ -50,7 +50,7 @@
         android:layout_below="@id/weight_textView"
         android:layout_centerVertical="true"
         android:layout_toLeftOf="@+id/height"
-        android:text="Weight: "
+        android:text="Height: "
         android:textSize="24sp"
         android:textStyle="bold"></TextView>
     <EditText

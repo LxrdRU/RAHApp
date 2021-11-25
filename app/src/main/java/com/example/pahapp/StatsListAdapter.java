@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,7 +15,7 @@ import java.util.List;
 public class StatsListAdapter extends RecyclerView.Adapter<StatsListAdapter.WordViewHolder> {
 
     private final LayoutInflater mInflater;
-    private List<Run> mRuns; // Cached copy of words
+    private List<Run> mRuns;
 
     StatsListAdapter(Context context) { mInflater = LayoutInflater.from(context); }
 
@@ -33,7 +34,7 @@ public class StatsListAdapter extends RecyclerView.Adapter<StatsListAdapter.Word
             holder.durationTextView.setText("Duration: " + TrackingUtility.getFormattedStopWatchTime(current.mTimeInMillis));
             holder.calTextView.setText("Cal. Burned: " + current.mCaloriesBurned);
             holder.speedTextView.setText("Avg. Speed : " + current.mAvgSpeenInKMH);
-            holder.distanceTextView.setText("Distance : " + String.format("%.3f", (current.mDistanceInMeters * 0.001)) + "m");
+            holder.distanceTextView.setText("Distance : " + String.format("%.3f", (current.mDistanceInMeters * 0.001)) + " km");
         } else {
             // Covers the case of data not being ready yet.
             holder.imageView.setImageResource(R.drawable.google_map_logo);
@@ -65,6 +66,7 @@ public class StatsListAdapter extends RecyclerView.Adapter<StatsListAdapter.Word
         private final TextView distanceTextView;
         private final TextView durationTextView;
         private final ImageView imageView;
+        private final RatingBar ratingBar;
 
         private WordViewHolder(View itemView) {
             super(itemView);
@@ -74,6 +76,7 @@ public class StatsListAdapter extends RecyclerView.Adapter<StatsListAdapter.Word
             speedTextView = itemView.findViewById(R.id.speed_row);
             distanceTextView = itemView.findViewById(R.id.distance_row);
             durationTextView = itemView.findViewById(R.id.duration_row);
+            ratingBar = itemView.findViewById(R.id.ratingUser);
         }
     }
 }

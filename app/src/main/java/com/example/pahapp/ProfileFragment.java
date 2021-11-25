@@ -3,6 +3,7 @@ package com.example.pahapp;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
 
 import android.text.Editable;
 import android.view.LayoutInflater;
@@ -20,6 +21,7 @@ import com.google.android.material.snackbar.Snackbar;
  */
 public class ProfileFragment extends Fragment {
     private FragmentProfileBinding binding;
+    private UserViewModel mUserViewModel;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -65,14 +67,17 @@ public class ProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
         binding = FragmentProfileBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
+
         binding.applyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 CharSequence name = binding.userName.getText();
                 CharSequence height = binding.height.getText();
                 CharSequence weight = binding.weight.getText();
-                if (weight!=null || height != null || name!=null) {
-                    User user = new User(name.toString(), Integer.parseInt(height.toString()), Float.parseFloat(weight.toString()));
+                if (weight!= "" || height != "" || name!="") {
+                    User user = new User(name.toString(), Integer.parseInt(String.valueOf(height)), Float.parseFloat(weight.toString()));
+                    Snackbar mySnackbar = Snackbar.make(view, "Done!", 2);
+                    mySnackbar.show();
                 }else {
                     Snackbar mySnackbar = Snackbar.make(view, "Please enter all fields", 2);
                     mySnackbar.show();

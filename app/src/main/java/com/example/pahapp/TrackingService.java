@@ -269,9 +269,12 @@ public class TrackingService extends LifecycleService {
         }
     }
     private void addPathPoint(Location location){
-        LatLng pos = new LatLng(location.getLatitude(),location.getLongitude());
-        pathPoints.getValue().get(pathPoints.getValue().size() - 1).add(pos);
-        pathPoints.postValue(pathPoints.getValue());
+
+        if(pathPoints.getValue().size() - 1 <= 1) {
+            LatLng pos = new LatLng(location.getLatitude(),location.getLongitude());
+            pathPoints.getValue().get(pathPoints.getValue().size() - 1).add(pos);
+            pathPoints.postValue(pathPoints.getValue());
+        }
 
     }
     private void startForegroundService() {

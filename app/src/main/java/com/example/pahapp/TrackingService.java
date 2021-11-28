@@ -125,6 +125,7 @@ public class TrackingService extends LifecycleService {
         stopForeground(true);
         stopSelf();
         isTracking.removeObservers(TrackingService.this);
+        fusedLocationProviderClient.removeLocationUpdates(locationCallback);
         Log.d(String.valueOf(1), "Kek:" + isTracking.hasActiveObservers());
     }
 

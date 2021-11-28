@@ -27,6 +27,7 @@ public class RunViewModel extends AndroidViewModel {
         return mAllRuns;
     }
     public void insertRun(Run run){
-        mRepository.insert(run);
+        mRepository.insertRun(run);
     }
+    public void deleteRun(Integer id){mRepository.deleteRun(id);}
 }

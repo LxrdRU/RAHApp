@@ -1,6 +1,11 @@
 package com.example.pahapp;
 
+import android.app.Activity;
+import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,25 +13,34 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-public class StatsListAdapter extends RecyclerView.Adapter<StatsListAdapter.WordViewHolder> {
+public class StatsListAdapter extends RecyclerView.Adapter<StatsListAdapter.RunViewHolder>  {
 
     private final LayoutInflater mInflater;
     private List<Run> mRuns;
-
-    StatsListAdapter(Context context) { mInflater = LayoutInflater.from(context); }
+    private RunViewModel mRunViewModel;
+    private Context context;
+    private RecyclerView recyclerView;
+    StatsListAdapter(Context context) { mInflater = LayoutInflater.from(context); this.context = context;}
 
     @Override
-    public WordViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RunViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = mInflater.inflate(R.layout.recycleview_row, parent, false);
-        return new WordViewHolder(itemView);
+        mRunViewModel = ViewModelProviders.of((FragmentActivity)context).get(RunViewModel.class);
+        return new RunViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(WordViewHolder holder, int position) {
+    public void onBindViewHolder(RunViewHolder holder, int position) {
         if (mRuns != null) {
             Run current = mRuns.get(position);
             holder.imageView.setImageBitmap(TrackingUtility.bytesToBitmap(current.mImg));
@@ -35,6 +49,25 @@ public class StatsListAdapter extends RecyclerView.Adapter<StatsListAdapter.Word
             holder.calTextView.setText("Cal. Burned: " + current.mCaloriesBurned);
             holder.speedTextView.setText("Avg. Speed : " + current.mAvgSpeenInKMH);
             holder.distanceTextView.setText("Distance : " + String.format("%.3f", (current.mDistanceInMeters * 0.001)) + " km");
+            holder.ratingBar.setRating(current.mRating);
+            
+//            holder.itemView.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    Bundle bundle = new Bundle();
+//                    bundle.putByteArray("image",current.mImg);
+//                    bundle.putString("time", "Date: " + TrackingUtility.getDate(current.mTimestamp,"dd/MM/yyyy hh:mm"));
+//                    bundle.putString("duration", "Duration: " + TrackingUtility.getFormattedStopWatchTime(current.mTimeInMillis));
+//                    bundle.putString("calories", "Calories Burned: " + current.mCaloriesBurned);
+//                    bundle.putString("avg_speed","Average Speed : " + current.mAvgSpeenInKMH);
+//                    bundle.putString("distance", "Distance : " + String.format("%.3f", (current.mDistanceInMeters * 0.001)) + " km");
+//                    bundle.putFloat("rating",current.mRating);
+//                    DetailsFragment detailsFragment = new DetailsFragment();
+//                    detailsFragment.setArguments(bundle);
+//                    FragmentActivity activity = (FragmentActivity) view.getContext();
+//                    activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, detailsFragment).commit();
+//                }
+//            });
         } else {
             // Covers the case of data not being ready yet.
             holder.imageView.setImageResource(R.drawable.google_map_logo);
@@ -50,6 +83,14 @@ public class StatsListAdapter extends RecyclerView.Adapter<StatsListAdapter.Word
         notifyDataSetChanged();
     }
 
+    @Override
+    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+        this.recyclerView = recyclerView;
+        new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerView);
+
+    }
+
     // getItemCount() is called many times, and when it is first called,
     // mWords has not been updated (means initially, it's null, and we can't return null).
     @Override
@@ -58,8 +99,20 @@ public class StatsListAdapter extends RecyclerView.Adapter<StatsListAdapter.Word
             return mRuns.size();
         else return 0;
     }
+    ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT) {
+        @Override
+        public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+            return false;
+        }
 
-    class WordViewHolder extends RecyclerView.ViewHolder {
+        @Override
+        public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+            Run current = mRuns.get(viewHolder.getAdapterPosition());
+            mRunViewModel.deleteRun(current.getRunId());
+            notifyDataSetChanged();
+        }
+    };
+    class RunViewHolder extends RecyclerView.ViewHolder {
         private final TextView timeTextView;
         private final TextView calTextView;
         private final TextView speedTextView;
@@ -68,7 +121,7 @@ public class StatsListAdapter extends RecyclerView.Adapter<StatsListAdapter.Word
         private final ImageView imageView;
         private final RatingBar ratingBar;
 
-        private WordViewHolder(View itemView) {
+        private RunViewHolder(View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.map_image);
             timeTextView = itemView.findViewById(R.id.date_time_row);
@@ -78,5 +131,6 @@ public class StatsListAdapter extends RecyclerView.Adapter<StatsListAdapter.Word
             durationTextView = itemView.findViewById(R.id.duration_row);
             ratingBar = itemView.findViewById(R.id.ratingUser);
         }
+
     }
 }

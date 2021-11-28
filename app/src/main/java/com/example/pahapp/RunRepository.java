@@ -28,7 +28,7 @@ public class RunRepository {
         return mAllRuns;
     }
 
-    public void insert (Run run) {
+    public void insertRun(Run run) {
         new insertRunAsyncTask(mRunDao).execute(run);
     }
 
@@ -50,7 +50,7 @@ public class RunRepository {
         return mAllUsers;
     }
 
-    public void insert (User user) {
+    public void insertUser(User user) {
         new insertUserAsyncTask(mUserDao).execute(user);
     }
 
@@ -65,6 +65,24 @@ public class RunRepository {
         @Override
         protected Void doInBackground(final User... params) {
             mAsyncTaskDao.insert(params[0]);
+            return null;
+        }
+    }
+    public void deleteRun(Integer id) {
+        new deleteRunAsyncTask(mRunDao).execute(id);
+    }
+
+    private static class deleteRunAsyncTask extends AsyncTask<Integer, Void, Void> {
+
+        private RunDao mAsyncTaskDao;
+
+        deleteRunAsyncTask(RunDao dao) {
+            mAsyncTaskDao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(final Integer... params) {
+            mAsyncTaskDao.deleteById(params[0]);
             return null;
         }
     }

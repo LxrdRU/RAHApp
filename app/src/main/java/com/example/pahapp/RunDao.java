@@ -17,6 +17,9 @@ public interface RunDao {
     @Query("DELETE FROM run_table")
     void deleteAll();
 
+    @Query("DELETE FROM run_table WHERE id = :id")
+    void deleteById(Integer id);
+
     @Query("SELECT * from run_table")
     LiveData<List<Run>> getAllRuns();
 }

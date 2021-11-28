@@ -75,6 +75,7 @@ public class StatsFragment extends Fragment {
         RecyclerView recyclerView = binding.recyclerview;
         final StatsListAdapter adapter = new StatsListAdapter(getActivity());
         recyclerView.setAdapter(adapter);
+
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRunViewModel.getAllRuns().observe(getViewLifecycleOwner(), new Observer<List<Run>>() {
             @Override

@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.text.Editable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,19 +68,34 @@ public class ProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
         binding = FragmentProfileBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
-
+        mUserViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
         binding.applyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CharSequence name = binding.userName.getText();
-                CharSequence height = binding.height.getText();
-                CharSequence weight = binding.weight.getText();
-                if (weight!= "" || height != "" || name!="") {
-                    User user = new User(name.toString(), Integer.parseInt(String.valueOf(height)), Float.parseFloat(weight.toString()));
-                    Snackbar mySnackbar = Snackbar.make(view, "Done!", 2);
+                String name = binding.userName.getText().toString();
+                String height = binding.height.getText().toString();
+                String weight = binding.weight.getText().toString();
+                String age = binding.age.getText().toString();
+                final String[] sex = new String[1];
+                binding.male.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        sex[0] = "Male";
+                    }
+                });
+                binding.female.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        sex[0] = "Female";
+                    }
+                });
+                if (weight!= "" && height != "" && name!="" && age!="" && sex[0]!="") {
+                    User user = new User(name, Integer.parseInt(height), Float.parseFloat(weight), age,sex[0]);
+                    mUserViewModel.insertUser(user);
+                    Snackbar mySnackbar = Snackbar.make(view, "Done!", 25);
                     mySnackbar.show();
                 }else {
-                    Snackbar mySnackbar = Snackbar.make(view, "Please enter all fields", 2);
+                    Snackbar mySnackbar = Snackbar.make(view, "Please enter all fields", 4);
                     mySnackbar.show();
                 }
             }

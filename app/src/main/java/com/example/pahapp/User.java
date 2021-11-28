@@ -31,25 +31,36 @@ public class User {
     @ColumnInfo(name = "weight")
     private Float weight;
 
+    @Nullable
+    @ColumnInfo(name = "age")
+    private String age;
+
+    @Nullable
+    @ColumnInfo(name = "sex")
+    private String sex;
 
     @Ignore
     public User(@NonNull Integer id,
             @Nullable String username,
             @Nullable Integer height,
-            @Nullable Float weight) {
+            @Nullable Float weight,@Nullable String age) {
         this.id = id;
         this.username      = username;
         this.height        = height;
         this.weight        = weight;
+        this.age = age;
     }
 
     public User(@Nullable String username,
                 @Nullable Integer height,
-                @Nullable Float weight) {
+                @Nullable Float weight,
+                @Nullable String age,@Nullable String sex) {
 
         this.username      = username;
         this.height        = height;
         this.weight        = weight;
+        this.age = age;
+        this.sex = sex;
     }
 
 
@@ -73,5 +84,12 @@ public class User {
     public Float getWeight() {
         return weight;
     }
-
+    @Nullable
+    public String getAge() {
+        return age;
+    }
+    @Nullable
+    public String getSex() {
+        return sex;
+    }
 }

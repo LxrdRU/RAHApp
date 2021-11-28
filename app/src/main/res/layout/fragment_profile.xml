@@ -5,6 +5,15 @@
     android:layout_height="match_parent"
     tools:context=".ProfileFragment">
 
+    <ImageView
+        android:id="@+id/image_for_logo_second"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:scaleType="center"
+        android:src="@drawable/ic_logo_second"
+        android:layout_above="@+id/user_name"
+        ></ImageView>
+
     <TextView
         android:id="@+id/user_name_textView"
         android:layout_width="200dp"
@@ -13,38 +22,45 @@
         android:layout_toLeftOf="@+id/user_name"
         android:text="Name: "
         android:textSize="24sp"
-        android:textStyle="bold"></TextView>
+        android:textStyle="bold"
+        android:layout_margin="2dp"
+        ></TextView>
+
     <EditText
         android:id="@+id/user_name"
         android:layout_width="200dp"
         android:layout_height="50dp"
-        android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
         android:imeOptions="actionDone"
-        >
-    </EditText>
+        android:layout_margin="2dp"
+        ></EditText>
 
     <TextView
         android:id="@+id/weight_textView"
         android:layout_width="200dp"
         android:layout_height="50dp"
-        android:layout_below="@id/user_name_textView"
+        android:layout_below="@id/sex_textView"
         android:layout_centerVertical="true"
         android:layout_toLeftOf="@+id/weight"
         android:text="Weight: "
         android:textSize="24sp"
-        android:textStyle="bold"></TextView>
+        android:textStyle="bold"
+        android:layout_margin="2dp"
+        ></TextView>
     <EditText
         android:id="@+id/weight"
         android:layout_width="200dp"
         android:layout_height="50dp"
-        android:layout_below="@+id/user_name"
+        android:layout_below="@+id/radio_group"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
         android:imeOptions="actionDone"
+        android:layout_margin="2dp"
         ></EditText>
 
     <TextView
+        android:id="@+id/height_textView"
         android:layout_width="200dp"
         android:layout_height="50dp"
         android:layout_below="@id/weight_textView"
@@ -52,7 +68,9 @@
         android:layout_toLeftOf="@+id/height"
         android:text="Height: "
         android:textSize="24sp"
-        android:textStyle="bold"></TextView>
+        android:textStyle="bold"
+        android:layout_margin="2dp"
+        ></TextView>
     <EditText
         android:id="@+id/height"
         android:layout_width="200dp"
@@ -61,13 +79,83 @@
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
         android:imeOptions="actionDone"
+        android:layout_margin="2dp"
         ></EditText>
+    <TextView
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_below="@id/height_textView"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/age"
+        android:text="Age: "
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_margin="2dp"
+        ></TextView>
+
+    <TextView
+        android:id="@+id/sex_textView"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_below="@id/user_name_textView"
+
+        android:layout_marginBottom="2dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginLeft="5dp"
+
+        android:text="Sex: "
+        android:textSize="24sp"
+        android:textStyle="bold"></TextView>
+    <EditText
+        android:id="@+id/age"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/height"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:imeOptions="actionDone"
+        android:layout_margin="2dp"
+        ></EditText>
+
     <Button
         android:id="@+id/apply_button"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:text="Apply"
         android:textSize="20sp"
-></Button>
+        android:layout_centerHorizontal="true"
+        android:backgroundTint="@color/orange"
+        android:layout_marginTop="10dp"
+        ></Button>
+    <RadioGroup
+        android:layout_margin="2dp"
+        android:layout_below="@id/user_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:orientation="horizontal"
+        android:id="@+id/radio_group">
+        <RadioButton
+            android:id="@+id/male"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="Male"
+            android:textSize="20sp"
+
+            />
+
+        <RadioButton
+            android:id="@+id/female"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Female"
+            android:textSize="20sp"
+
+            />
+    </RadioGroup>
+
+
+
 </RelativeLayout>

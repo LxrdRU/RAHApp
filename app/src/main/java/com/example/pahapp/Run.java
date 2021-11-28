@@ -42,17 +42,21 @@ public class Run {
     @ColumnInfo(typeAffinity = ColumnInfo.BLOB)
     public byte[] mImg;
 
+    @ColumnInfo(name = "rating")
+    public float mRating;
+
 
     public Run(){};
-    public Run(byte[] img, @NonNull Long timestamp, @NonNull Float avgSpeedInKMH, @NonNull Integer distanceInMeters, @NonNull Long timeInMillis, @NonNull Integer caloriesBurned) {
+    public Run(byte[] img, @NonNull Long timestamp, @NonNull Float avgSpeedInKMH, @NonNull Integer distanceInMeters, @NonNull Long timeInMillis, @NonNull Integer caloriesBurned, float rating) {
         this.mImg = img;
         this.mTimestamp = timestamp;
         this.mAvgSpeenInKMH = avgSpeedInKMH;
         this.mDistanceInMeters = distanceInMeters;
         this.mTimeInMillis = timeInMillis;
         this.mCaloriesBurned = caloriesBurned;
+        this.mRating = rating;
     }
-    public Run(@NonNull Integer id, byte[] img, @NonNull Long timestamp, @NonNull Float avgSpeedInKMH, @NonNull Integer distanceInMeters, @NonNull Long timeInMillis, @NonNull Integer caloriesBurned) {
+    public Run(@NonNull Integer id, byte[] img, @NonNull Long timestamp, @NonNull Float avgSpeedInKMH, @NonNull Integer distanceInMeters, @NonNull Long timeInMillis, @NonNull Integer caloriesBurned, float rating) {
         this.mId = id;
         this.mImg = img;
         this.mTimestamp = timestamp;
@@ -60,13 +64,15 @@ public class Run {
         this.mDistanceInMeters = distanceInMeters;
         this.mTimeInMillis = timeInMillis;
         this.mCaloriesBurned = caloriesBurned;
+        this.mRating = rating;
     }
-    public Run(@NonNull Long timestamp, @NonNull Float avgSpeedInKMH, @NonNull Integer distanceInMeters, @NonNull Long timeInMillis, @NonNull Integer caloriesBurned) {
+    public Run(@NonNull Long timestamp, @NonNull Float avgSpeedInKMH, @NonNull Integer distanceInMeters, @NonNull Long timeInMillis, @NonNull Integer caloriesBurned, float rating) {
         this.mTimestamp = timestamp;
         this.mAvgSpeenInKMH = avgSpeedInKMH;
         this.mDistanceInMeters = distanceInMeters;
         this.mTimeInMillis = timeInMillis;
         this.mCaloriesBurned = caloriesBurned;
+        this.mRating = rating;
     }
     @NonNull
     public Integer getRunId(){
@@ -95,4 +101,6 @@ public class Run {
     public Integer getmCaloriesBurned() {
         return this.mCaloriesBurned;
     }
+
+    public float getmRating(){return this.mRating;}
 }

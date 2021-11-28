@@ -12,7 +12,7 @@ import java.util.List;
 @Dao
 public interface UserDao {
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insert(User user);
 
 

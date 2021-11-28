@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="blue">#0048ff</color>
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>
     <color name="purple_700">#FF3700B3</color>
@@ -7,4 +8,13 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="main_green">#1DA716</color>
+    <color name="coplimentary">#a016a7</color>
+    <color name="analogous_1">#65a716</color>
+    <color name="analogous_2">#16a757</color>
+    <color name="teal">#16a7a0</color>
+    <color name="yellow">#ffa300</color>
+    <color name="orange">#ff5900</color>
+
 </resources>

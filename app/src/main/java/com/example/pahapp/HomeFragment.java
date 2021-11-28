@@ -71,6 +71,8 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, EasyPe
     private UserViewModel mUserViewModel;
 
     private Float weight = 80f;
+    private String age = "18";
+    private String sex = "Male";
     TrackingService service = new TrackingService();
 
     // TODO: Rename parameter arguments, choose names that match
@@ -96,15 +98,20 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, EasyPe
     @Override
     public void onResume() {
         super.onResume();
-        if(mUserViewModel.getAllUser().getValue()!=null){
-            Log.d(String.valueOf(1), "WEight"+weight.toString());
-            int sizeOfUserArr = mUserViewModel.getAllUser().getValue().size();
-            if(mUserViewModel.getAllUser().getValue().get(sizeOfUserArr-1).getWeight()!=null) {
-                weight = mUserViewModel.getAllUser().getValue().get(sizeOfUserArr - 1).getWeight();
-
-
+        mUserViewModel.getAllUser().observe(getViewLifecycleOwner(), new Observer<List<User>>() {
+            @Override
+            public void onChanged(List<User> users) {
+                if(!users.isEmpty()){
+                    int sizeOfUserList = users.size();
+                    if (users.get(sizeOfUserList-1).getWeight()!=null){
+                        weight = users.get(sizeOfUserList-1).getWeight();
+                        age = users.get(sizeOfUserList-1).getAge();
+                        sex = users.get(sizeOfUserList-1).getSex();
+                    }
+                }
             }
-        }
+        });
+
     }
 
     /**
@@ -128,6 +135,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, EasyPe
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mUserViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -138,7 +146,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, EasyPe
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mRunViewModel = ViewModelProviders.of(this).get(RunViewModel.class);
-        mUserViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
 
         // Inflate the layout for this fragment
         binding = FragmentHomeBinding.inflate(inflater, container, false);
@@ -283,7 +290,8 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, EasyPe
                 long dateTimeStamp = Calendar.getInstance().getTimeInMillis();
                 float caloriesBurned = (distanceInMeters / 1000f) * weight;
                 Log.d(String.valueOf(3), "onSnapshotReady: " + dateTimeStamp + ":  " + avgSpeed + " :  " + pathPoints);
-                Run run = new Run(TrackingUtility.bitmapToBytes(bitmap), dateTimeStamp, avgSpeed, distanceInMeters, curTimeMillis, (int) caloriesBurned);
+                float rating= TrackingUtility.getRating(distanceInMeters,curTimeMillis,sex);
+                Run run = new Run(TrackingUtility.bitmapToBytes(bitmap), dateTimeStamp, avgSpeed, distanceInMeters, curTimeMillis, (int) caloriesBurned, rating);
                 mRunViewModel.insertRun(run);
                 pathPoints.clear();
                 sendCommand("ACTION_STOP_SERVICE");

@@ -1,4 +1,4 @@
-package com.example.pahapp;
+package com.workout.pahapp;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,8 +11,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.pahapp.databinding.FragmentHomeBinding;
-import com.example.pahapp.databinding.FragmentStatsBinding;
+import com.workout.pahapp.databinding.FragmentStatsBinding;
 
 import java.util.List;
 

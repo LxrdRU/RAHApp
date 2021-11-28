@@ -1,6 +1,4 @@
-package com.example.pahapp;
-
-import android.graphics.Bitmap;
+package com.workout.pahapp;
 
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;

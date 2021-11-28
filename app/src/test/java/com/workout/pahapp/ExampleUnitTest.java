@@ -1,4 +1,4 @@
-package com.example.pahapp;
+package com.workout.pahapp;
 
 import org.junit.Test;
 

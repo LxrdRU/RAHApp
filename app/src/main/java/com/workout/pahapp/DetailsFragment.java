@@ -1,6 +1,5 @@
-package com.example.pahapp;
+package com.workout.pahapp;
 
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 
@@ -11,8 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.pahapp.databinding.FragmentDetailsBinding;
-import com.example.pahapp.databinding.FragmentHomeBinding;
+import com.workout.pahapp.databinding.FragmentDetailsBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 /**

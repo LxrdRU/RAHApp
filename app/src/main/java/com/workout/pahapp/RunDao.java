@@ -1,4 +1,4 @@
-package com.example.pahapp;
+package com.workout.pahapp;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;

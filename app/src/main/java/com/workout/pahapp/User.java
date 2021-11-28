@@ -1,4 +1,4 @@
-package com.example.pahapp;
+package com.workout.pahapp;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;

@@ -1,18 +1,15 @@
-package com.example.pahapp;
+package com.workout.pahapp;
 
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
-import android.text.Editable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.pahapp.databinding.FragmentProfileBinding;
-import com.example.pahapp.databinding.FragmentStatsBinding;
+import com.workout.pahapp.databinding.FragmentProfileBinding;
 import com.google.android.material.snackbar.Snackbar;
 
 /**

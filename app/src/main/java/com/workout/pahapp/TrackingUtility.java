@@ -1,4 +1,4 @@
-package com.example.pahapp;
+package com.workout.pahapp;
 
 import android.Manifest;
 import android.content.Context;
@@ -11,7 +11,6 @@ import android.util.Log;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.io.ByteArrayOutputStream;
-import java.nio.ByteBuffer;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;

@@ -1,5 +1,5 @@
 
-package com.example.pahapp;
+package com.workout.pahapp;
 
 import android.Manifest;
 import android.app.AlertDialog;

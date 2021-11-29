@@ -36,7 +36,6 @@ import com.google.android.gms.tasks.Task;
 import java.util.ArrayList;
 
 public class TrackingService extends LifecycleService {
-    static TrackingService instance;
     private MutableLiveData<Long> timeRunInSeconds = new MutableLiveData<Long>();
     private Boolean serviseKilled = false;
     private Boolean isFirstRun = true;
@@ -100,7 +99,7 @@ public class TrackingService extends LifecycleService {
 
     }
 
-
+    //kill service
     private void killServise(){
         serviseKilled = true;
         isFirstRun=true;
@@ -113,7 +112,7 @@ public class TrackingService extends LifecycleService {
         Log.d(String.valueOf(1), "Kek:" + isTracking.hasActiveObservers());
     }
 
-
+    //receive commands
     @Override
     public int onStartCommand(@Nullable Intent intent, int flags, int startId) {
         Log.d(String.valueOf(2), "ACTION_STOP" + startId);
@@ -133,7 +132,7 @@ public class TrackingService extends LifecycleService {
         }
         return super.onStartCommand(intent, flags, startId);
     }
-
+    //starts timer
     private void startTimer(){
         addEmptyPolyline();
         isTracking.setValue(true);
@@ -169,7 +168,7 @@ public class TrackingService extends LifecycleService {
         isTracking.setValue(false);
         isTimerEnabled = false;
     }
-
+    //updates state
     private void updateNotificationTrackingState(Boolean isTracking) {
         String notificationActionText;
         if(isTracking){
@@ -203,7 +202,7 @@ public class TrackingService extends LifecycleService {
         }
     }
 
-
+        //start tracking location
         private void updateLocationTracking(Boolean isTracking){
             Log.d(String.valueOf(10), isTracking.toString());
             if(isTracking){
@@ -243,6 +242,8 @@ public class TrackingService extends LifecycleService {
                 fusedLocationProviderClient.removeLocationUpdates(locationCallback);
             }
         }
+
+    //adds an empty polyline
     private void addEmptyPolyline() {
         if(pathPoints.getValue() != null){
             pathPoints.getValue().add(new ArrayList());
@@ -253,6 +254,7 @@ public class TrackingService extends LifecycleService {
             pathPoints.postValue(new ArrayList<ArrayList<LatLng>>());
         }
     }
+    //ads path point every time onlocation changed called
     private void addPathPoint(Location location){
 
         if(pathPoints.getValue().size() - 1 <= 1) {
